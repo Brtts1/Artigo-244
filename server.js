@@ -219,7 +219,7 @@ doc.moveDown();
   doc.fontSize(12).text(`Resposta: ${respostas.cpf}`);
 */
 //-------------------------------------------------------------------------------------------
-  const pdfFilename = 'Petição Modelo Art.230 IX CTB.pdf';
+  const pdfFilename = 'Petição Modelo Art.244 IX CTB.pdf';
   const pdfPath = path.join(__dirname, 'backup', pdfFilename);
   const pdfStream = fs.createWriteStream(pdfPath);
   doc.pipe(pdfStream);
