@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulário</title>
+</head>
+<body>
+  <center><h1>.: Formulário MS Multas :.</h1></center>
+  
+  <br>
+
+  <form id="formulario">
+    <label for="nome">Qual é o seu Nome Completo ?</label>
+    <input type="text" id="nome" name="nome" required>
+    
+    <br>
+<br>
+    <label for="autoinfracao">Informe o Código do Auto de Infração de Trânsito:</label>
+    <input type="text" id="autoinfracao" name="autoinfracao" required>
+
+<br>
+    <br>
+
+      <label for="cpf">Qual é o seu CPF ?</label>
+      <input type="text" id="cpf" name="cpf" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
+
+    <br>
+    <br>
+
+    <label for="cpf">Qual é o sua CNH ?</label>
+    <input type="text" id="cnh" name="cnh" required>
+
+    <br>
+
+    <br>
+
+    <label for="cpf">Qual é o seu E-mail ?</label>
+    <input type="text" id="email" name="email" required>
+
+    <br>
+
+    <br>
+
+    <label for="cpf">Qual é o seu Telefone ?</label>
+    <input type="text" id="telefone" name="telefone" required>
+
+    <br>
+
+    <br>
+
+    <label for="datamulta">Qual a Data do Ocorrido ?</label>
+    <input type="text" id="datamulta" name="datamulta" required>
+
+    <br>
+
+    <br>
+
+    <label for="placa">Qual a Placa de seu Veículo ?</label>
+    <input type="text" id="placa" name="placa" required>
+
+    <br>
+    <br>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    const formulario = document.getElementById('formulario');
+
+    formulario.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const autoinfracao = document.getElementById('autoinfracao').value;
+      const cpf = document.getElementById('cpf').value;
+      const cnh = document.getElementById('cnh').value;
+      const email = document.getElementById('email').value;
+      const telefone = document.getElementById('telefone').value;
+      const datamulta = document.getElementById('datamulta').value;
+      const placa = document.getElementById('placa').value;
+
+      const respostas = {
+        nome: nome,
+        autoinfracao: autoinfracao,
+        cpf: cpf,
+        cnh: cnh,
+        email: email,
+        telefone: telefone,
+        datamulta: datamulta,
+        placa: placa
+      };
+
+      fetch('/gerar-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(respostas)
+      })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+
+        const linkDownloadPDF = document.createElement('a');
+        linkDownloadPDF.href = url;
+        linkDownloadPDF.download = 'Petição Modelo Art230 IX CTB.pdf';
+        linkDownloadPDF.style.display = 'none';
+        document.body.appendChild(linkDownloadPDF);
+        linkDownloadPDF.click();
+        document.body.removeChild(linkDownloadPDF);
+      });
+
+      formulario.reset();
+    });
+  </script>
+</body>
+</html>
